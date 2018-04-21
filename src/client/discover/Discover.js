@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import DiscoverContent from './DiscoverContent';
-import Affix from '../components/Utils/Affix';
 import './Discover.less';
 
 const Discover = ({ intl }) => (

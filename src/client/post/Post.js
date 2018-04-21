@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import VisibilitySensor from 'react-visibility-sensor';
 import formatter from '../helpers/steemitFormatter';
-import { getCryptoDetails } from '../helpers/cryptosHelper';
 import { isBannedPost } from '../helpers/postHelpers';
 import {
   getPostContent,
@@ -24,7 +23,6 @@ import PostContent from './PostContent';
 import Affix from '../components/Utils/Affix';
 import HiddenPostMessage from './HiddenPostMessage';
 import PostRecommendation from '../components/Sidebar/PostRecommendation';
-import CryptoTrendingCharts from '../components/Sidebar/CryptoTrendingCharts';
 import ScrollToTopOnMount from '../components/Utils/ScrollToTopOnMount';
 
 @connect(

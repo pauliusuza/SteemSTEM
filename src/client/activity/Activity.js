@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import UserActivity from './UserActivity';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import requiresLogin from '../auth/requiresLogin';

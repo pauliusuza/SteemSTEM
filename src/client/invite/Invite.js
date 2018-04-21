@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import requiresLogin from '../auth/requiresLogin';
 import { getAuthenticatedUserName } from '../reducers';
 import FacebookShare from '../components/Button/FacebookShare';

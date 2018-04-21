@@ -62,6 +62,7 @@ class Write extends React.Component {
     newPost: PropTypes.func,
     createPost: PropTypes.func,
     saveDraft: PropTypes.func,
+    notify: PropTypes.func,
     replace: PropTypes.func,
   };
 

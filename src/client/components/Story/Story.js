@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   injectIntl,
@@ -22,7 +22,6 @@ import withAuthActions from '../../auth/withAuthActions';
 import StoryPreview from './StoryPreview';
 import StoryFooter from '../StoryFooter/StoryFooter';
 import Avatar from '../Avatar';
-import Topic from '../Button/Topic';
 import NSFWStoryPreviewMessage from './NSFWStoryPreviewMessage';
 import HiddenStoryPreviewMessage from './HiddenStoryPreviewMessage';
 import DMCARemovedMessage from './DMCARemovedMessage';

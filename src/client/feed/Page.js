@@ -7,7 +7,6 @@ import { getFeedContent } from './feedActions';
 import { getIsLoaded, getIsAuthenticated } from '../reducers';
 import SubFeed from './SubFeed';
 import HeroBannerContainer from './HeroBannerContainer';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import TopicSelector from '../components/TopicSelector';
 import Affix from '../components/Utils/Affix';

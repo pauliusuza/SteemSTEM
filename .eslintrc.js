@@ -25,6 +25,8 @@ module.exports = {
     'linebreak-style': ["error", "windows"],
     'jsx-a11y/anchor-is-valid': 0,
     'prefer-destructuring': 0,
+    'react/no-unused-state': 0,
+    'react/no-unused-prop-types': 0,
     'react/jsx-filename-extension': [ERROR, { extensions: ['.js'] }],
     'import/no-extraneous-dependencies': [
       ERROR,

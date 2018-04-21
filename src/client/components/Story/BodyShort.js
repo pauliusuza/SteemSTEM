@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ellipsis from 'text-ellipsis';
 import striptags from 'striptags';
@@ -36,11 +36,13 @@ BodyShort.propTypes = {
   className: PropTypes.string,
   body: PropTypes.string,
   length: PropTypes.number,
+  title: PropTypes.string
 };
 
 BodyShort.defaultProps = {
   className: '',
   body: '',
+  title: '',
   length: 140,
 };
 
