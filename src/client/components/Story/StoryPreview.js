@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import embedjs from 'embedjs';
 import _ from 'lodash';
@@ -49,7 +49,7 @@ const StoryPreview = ({ post }) => {
   }
 
   const preview = {
-    text: () => <BodyShort key="text" className="Story__content__body" body={post.body} />,
+    text: () => <BodyShort key="text" className="Story__content__body" body={post.body} title={post.title || post.root_title} category={post.category} />,
 
     embed: () => embeds && embeds[0] && <PostFeedEmbed key="embed" embed={embeds[0]} />,
 
@@ -80,19 +80,26 @@ const StoryPreview = ({ post }) => {
     bodyData.push(preview.embed());
     bodyData.push(preview.text());
   } else if (isPostWithPictureBeforeFirstHalf(tagPositions)) {
-    bodyData.push(preview.text());
     bodyData.push(preview.image());
+    bodyData.push(preview.text());
   } else if (isPostWithEmbedBeforeFirstHalf(tagPositions)) {
-    bodyData.push(preview.text());
     bodyData.push(preview.embed());
-  } else if (imagePath !== '') {
     bodyData.push(preview.text());
+  } else if (imagePath !== '') {
     bodyData.push(preview.image());
+    bodyData.push(preview.text());
   } else {
     bodyData.push(preview.text());
   }
 
-  return <div>{bodyData}</div>;
+  return (
+    <Fragment>
+      <span className="categoryLabel">{post.category}</span>
+      <div className="storyBodyWrap">
+        {bodyData}
+      </div>
+    </Fragment>
+  );
 };
 
 StoryPreview.propTypes = {

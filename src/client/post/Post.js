@@ -133,28 +133,6 @@ export default class Post extends React.Component {
     });
   };
 
-  renderCryptoTrendingCharts() {
-    const { content } = this.props;
-    const parsedJsonMetadata = _.attempt(JSON.parse, content.json_metadata);
-
-    if (_.isError(parsedJsonMetadata)) {
-      return null;
-    }
-
-    const tags = _.get(parsedJsonMetadata, 'tags', []);
-    const allCryptoDetails = [];
-
-    _.each(tags, tag => {
-      const cryptoDetails = getCryptoDetails(tag);
-      if (!_.isEmpty(cryptoDetails)) {
-        allCryptoDetails.push(cryptoDetails);
-      }
-    });
-
-    const cryptoTags = _.map(_.uniqBy(allCryptoDetails, 'symbol'), crypto => crypto.symbol);
-    return !_.isEmpty(cryptoTags) && <CryptoTrendingCharts cryptos={cryptoTags} />;
-  }
-
   render() {
     const { content, fetching, loaded, failed, isAuthFetching, user } = this.props;
 
@@ -172,12 +150,6 @@ export default class Post extends React.Component {
         <ScrollToTopOnMount />
         <div className="shifted">
           <div className="post-layout container">
-            <Affix className="rightContainer" stickPosition={77}>
-              <div className="right">
-                {loaded && this.renderCryptoTrendingCharts()}
-                <PostRecommendation isAuthFetching={isAuthFetching} />
-              </div>
-            </Affix>
             {showPost ? (
               <div className="center" style={{ paddingBottom: '24px' }}>
                 <PostContent content={content} signature={signature} />
@@ -191,6 +163,9 @@ export default class Post extends React.Component {
             ) : (
               <HiddenPostMessage onClick={this.handleShowPost} />
             )}
+            <Affix className="rightSidebar" stickPosition={77}>
+              <PostRecommendation isAuthFetching={isAuthFetching} />
+            </Affix>
           </div>
         </div>
       </div>

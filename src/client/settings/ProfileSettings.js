@@ -147,11 +147,6 @@ export default class ProfileSettings extends React.Component {
           </title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="edit_profile" defaultMessage="Edit Profile" />

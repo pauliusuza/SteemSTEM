@@ -16,11 +16,6 @@ const Discover = ({ intl }) => (
       </title>
     </Helmet>
     <div className="feed-layout container">
-      <Affix className="leftContainer" stickPosition={77}>
-        <div className="left">
-          <LeftSidebar />
-        </div>
-      </Affix>
       <div className="Discover">
         <div className="Discover__title">
           <h1>

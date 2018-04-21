@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import ellipsis from 'text-ellipsis';
 import striptags from 'striptags';
@@ -21,10 +21,13 @@ const BodyShort = props => {
 
   /* eslint-disable react/no-danger */
   return (
-    <div
-      className={props.className}
-      dangerouslySetInnerHTML={{ __html: ellipsis(body, props.length, { ellipsis: '…' }) }}
-    />
+    <div className="bodyShort">
+      <h2>{props.title}</h2>
+      <div
+        className={props.className}
+        dangerouslySetInnerHTML={{ __html: ellipsis(body, props.length, { ellipsis: '…' }) }}
+      />
+    </div>
   );
   /* eslint-enable react/no-danger */
 };

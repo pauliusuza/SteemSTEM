@@ -100,11 +100,6 @@ class Drafts extends React.Component {
           <title>{intl.formatMessage({ id: 'drafts', defaultMessage: 'Drafts' })} - Busy</title>
         </Helmet>
         <div className="drafts-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <div>
               <h1>

@@ -90,11 +90,6 @@ class Search extends React.Component {
         <Helmet>
           <title>{intl.formatMessage({ id: 'search', defaultMessage: 'Search' })} - Busy</title>
         </Helmet>
-        <Affix className="leftContainer" stickPosition={77}>
-          <div className="left">
-            <LeftSidebar />
-          </div>
-        </Affix>
         <div className="center">
           <h1 className="Search__title">
             <FormattedMessage id="search_results" defaultMessage="Search results" />

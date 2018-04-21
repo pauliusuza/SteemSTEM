@@ -242,11 +242,6 @@ export default class Settings extends React.Component {
           <title>{intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' })} - Busy</title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="settings" defaultMessage="Settings" />

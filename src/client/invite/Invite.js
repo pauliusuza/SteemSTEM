@@ -71,11 +71,6 @@ export default class Invite extends React.Component {
           <title>{intl.formatMessage({ id: 'invite', defaultMessage: 'Invite' })} - Busy</title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <div className="Invite">
               <div className="Invite__icon-container" />

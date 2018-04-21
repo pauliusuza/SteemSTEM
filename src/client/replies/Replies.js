@@ -63,16 +63,6 @@ export class IReplies extends React.Component {
           <title>{intl.formatMessage({ id: 'replies', defaultMessage: 'Replies' })} - Busy</title>
         </Helmet>
         <div className="feed-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right">
-              <RightSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <Feed
               content={content}
@@ -81,6 +71,9 @@ export class IReplies extends React.Component {
               loadMoreContent={this.props.getMoreReplies}
             />
           </div>
+          <Affix className="rightSidebar" stickPosition={77}>
+            <RightSidebar />
+          </Affix>
         </div>
       </div>
     );

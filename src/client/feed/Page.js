@@ -63,16 +63,6 @@ class Page extends React.Component {
         <HeroBannerContainer />
         <div className="shifted">
           <div className="feed-layout container">
-            <Affix className="leftContainer" stickPosition={77}>
-              <div className="left">
-                <LeftSidebar />
-              </div>
-            </Affix>
-            <Affix className="rightContainer" stickPosition={77}>
-              <div className="right">
-                <RightSidebar />
-              </div>
-            </Affix>
             <div className="center">
               {shouldDisplaySelector && (
                 <TopicSelector
@@ -86,6 +76,9 @@ class Page extends React.Component {
               {authenticated && <QuickPostEditor />}
               <SubFeed />
             </div>
+            <Affix className="rightSidebar" stickPosition={77}>
+              <RightSidebar />
+            </Affix>
           </div>
         </div>
       </div>
