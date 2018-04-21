@@ -5,7 +5,7 @@ module.exports = {
    */
   apps: [
     {
-      name: 'busy',
+      name: 'steemstem',
       script: 'busy.server.js',
       instances: 4,
       exec_mode: 'cluster',

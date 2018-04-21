@@ -8,6 +8,7 @@ const baseDir = path.resolve(__dirname, '..');
 
 module.exports = {
   entry: path.resolve(baseDir, './src/server/index.js'),
+  mode: 'production',
   output: {
     filename: 'busy.server.js',
   },
@@ -21,7 +22,7 @@ module.exports = {
     __dirname: true,
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: configUtils.MATCH_JS_JSX,
         exclude: /node_modules/,
@@ -43,7 +44,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.STEEMCONNECT_CLIENT_ID': JSON.stringify(
-        process.env.STEEMCONNECT_CLIENT_ID || 'busy.app',
+        process.env.STEEMCONNECT_CLIENT_ID || 'steemstem.app',
       ),
       'process.env.STEEMCONNECT_REDIRECT_URL': JSON.stringify(
         process.env.STEEMCONNECT_REDIRECT_URL || 'http://localhost:3000/callback',
@@ -56,7 +57,7 @@ module.exports = {
       ),
       'process.env.IS_BROWSER': JSON.stringify(false),
       'process.env.SIGNUP_URL': JSON.stringify(
-        process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=busy',
+        process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=steemstem',
       ),
     }),
   ],

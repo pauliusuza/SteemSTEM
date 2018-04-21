@@ -31,7 +31,7 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-#vscode specific 
+#vscode specific
 .vscode/*
 
 # Dependency directory
@@ -40,3 +40,4 @@ node_modules
 .tern-port
 .envrc
 busy.server.js
+.env
