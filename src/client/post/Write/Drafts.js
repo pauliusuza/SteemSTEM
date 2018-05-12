@@ -8,8 +8,6 @@ import { Checkbox } from 'antd';
 import Loading from '../../components/Icon/Loading';
 import { reload } from '../../auth/authActions';
 import { getDraftPosts, getPendingDrafts, getIsReloading } from '../../reducers';
-import Affix from '../../components/Utils/Affix';
-import LeftSidebar from '../../app/Sidebar/LeftSidebar';
 import DraftRow from './DraftRow';
 import DeleteDraftModal from './DeleteDraftModal';
 import requiresLogin from '../../auth/requiresLogin';
@@ -100,11 +98,6 @@ class Drafts extends React.Component {
           <title>{intl.formatMessage({ id: 'drafts', defaultMessage: 'Drafts' })} - Busy</title>
         </Helmet>
         <div className="drafts-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <div>
               <h1>

@@ -22,7 +22,6 @@ import withAuthActions from '../../auth/withAuthActions';
 import StoryPreview from './StoryPreview';
 import StoryFooter from '../StoryFooter/StoryFooter';
 import Avatar from '../Avatar';
-import Topic from '../Button/Topic';
 import NSFWStoryPreviewMessage from './NSFWStoryPreviewMessage';
 import HiddenStoryPreviewMessage from './HiddenStoryPreviewMessage';
 import DMCARemovedMessage from './DMCARemovedMessage';
@@ -305,41 +304,6 @@ class Story extends React.Component {
       <div className="Story" id={`${post.author}-${post.permlink}`}>
         {rebloggedUI}
         <div className="Story__content">
-          <div className="Story__header">
-            <Link to={`/@${post.author}`}>
-              <Avatar username={post.author} size={40} />
-            </Link>
-            <div className="Story__header__text">
-              <span className="Story__header__flex">
-                <Link to={`/@${post.author}`}>
-                  <h4>
-                    <span className="username">{post.author}</span>
-                    <Tooltip title={intl.formatMessage({ id: 'reputation_score' })}>
-                      <Tag>{postAuthorReputation}</Tag>
-                    </Tooltip>
-                  </h4>
-                </Link>
-                <span className="Story__topics">
-                  <Topic name={post.category} />
-                </span>
-              </span>
-              <span>
-                <Tooltip
-                  title={
-                    <span>
-                      <FormattedDate value={`${post.created}Z`} />{' '}
-                      <FormattedTime value={`${post.created}Z`} />
-                    </span>
-                  }
-                >
-                  <span className="Story__date">
-                    <FormattedRelative value={`${post.created}Z`} />
-                  </span>
-                </Tooltip>
-                <PostedFrom post={post} />
-              </span>
-            </div>
-          </div>
           <div className="Story__content">
             <a
               href={dropCategory(post.url)}
@@ -347,14 +311,48 @@ class Story extends React.Component {
               onClick={this.handlePostModalDisplay}
               className="Story__content__title"
             >
-              <h2>
-                {post.depth !== 0 && <Tag color="#4f545c">RE</Tag>}
-                {post.title || post.root_title}
-              </h2>
+              {post.depth !== 0 && (
+                <h2>
+                  <Tag color="#4f545c">RE</Tag>
+                  {post.title || post.root_title}
+                </h2>
+              )}
             </a>
             {this.renderStoryPreview()}
           </div>
           <div className="Story__footer">
+            <div className="Story__header">
+              <Link to={`/@${post.author}`}>
+                <Avatar username={post.author} size={32} />
+              </Link>
+              <div className="Story__header__text">
+                <span className="Story__header__flex">
+                  <Link to={`/@${post.author}`}>
+                    <h4>
+                      <span className="username">{post.author}</span>
+                      <Tooltip title={intl.formatMessage({ id: 'reputation_score' })}>
+                        <Tag>{postAuthorReputation}</Tag>
+                      </Tooltip>
+                    </h4>
+                  </Link>
+                </span>
+                <span>
+                  <Tooltip
+                    title={
+                      <span>
+                        <FormattedDate value={`${post.created}Z`} />{' '}
+                        <FormattedTime value={`${post.created}Z`} />
+                      </span>
+                    }
+                  >
+                    <span className="Story__date">
+                      <FormattedRelative value={`${post.created}Z`} />
+                    </span>
+                  </Tooltip>
+                  <PostedFrom post={post} />
+                </span>
+              </div>
+            </div>
             <StoryFooter
               user={user}
               post={post}

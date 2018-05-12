@@ -9,6 +9,49 @@ body {
   height: 100%;
 }
 
+.center {
+  flex: 1;
+}
+
+.rightSidebar {
+  display: flex;
+  width: 270px;
+  padding-left: 20px;
+}
+
+.storyBodyWrap {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.bodyShort {
+}
+.categoryLabel {
+  padding: 1.5em 1.25em 0 1.25em;
+  display: block;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #009c9c;
+  font-size: 80%;
+}
+.bodyShort h2 {
+  padding: 0.25em 0.5em 0.25em 0.5em;
+  font-size: 30px;
+  font-weight: 500 !important;
+  line-height: 1.2em;
+}
+
+.storyBodyWrap .Story__content__img-container {
+  flex: 1;
+  min-width: 230px;
+}
+
+.storyBodyWrap .Story__content__body {
+  flex: 2;
+  font-family: sans-serif;
+  color: #777;
+}
+
 a:focus {
   text-decoration: none;
 }

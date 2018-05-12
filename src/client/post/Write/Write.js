@@ -62,6 +62,7 @@ class Write extends React.Component {
     newPost: PropTypes.func,
     createPost: PropTypes.func,
     saveDraft: PropTypes.func,
+    notify: PropTypes.func,
     replace: PropTypes.func,
   };
 
@@ -259,11 +260,6 @@ class Write extends React.Component {
     return (
       <div className="shifted">
         <div className="post-layout container">
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right">
-              <GetBoost />
-            </div>
-          </Affix>
           <div className="center">
             <Editor
               ref={this.setForm}
@@ -281,6 +277,9 @@ class Write extends React.Component {
               onDelete={this.onDelete}
             />
           </div>
+          <Affix className="rightSidebar" stickPosition={77}>
+            <GetBoost />
+          </Affix>
           {this.state.showModalDelete && (
             <DeleteDraftModal
               draftId={draftId}

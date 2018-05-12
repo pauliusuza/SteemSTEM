@@ -13,16 +13,16 @@ import { getReplies, getMoreReplies } from '../feed/feedActions';
 import Feed from '../feed/Feed';
 import Loading from '../components/Icon/Loading';
 import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import requiresLogin from '../auth/requiresLogin';
 
 export class IReplies extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
-    authenticated: PropTypes.bool.isRequired,
+    authenticated: PropTypes.bool,
     username: PropTypes.string,
     feed: PropTypes.shape(),
+    posts: PropTypes.shape(),
     getReplies: PropTypes.func,
     getMoreReplies: PropTypes.func,
   };
@@ -63,16 +63,6 @@ export class IReplies extends React.Component {
           <title>{intl.formatMessage({ id: 'replies', defaultMessage: 'Replies' })} - Busy</title>
         </Helmet>
         <div className="feed-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right">
-              <RightSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <Feed
               content={content}
@@ -81,6 +71,9 @@ export class IReplies extends React.Component {
               loadMoreContent={this.props.getMoreReplies}
             />
           </div>
+          <Affix className="rightSidebar" stickPosition={77}>
+            <RightSidebar />
+          </Affix>
         </div>
       </div>
     );

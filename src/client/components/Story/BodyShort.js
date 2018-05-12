@@ -21,10 +21,13 @@ const BodyShort = props => {
 
   /* eslint-disable react/no-danger */
   return (
-    <div
-      className={props.className}
-      dangerouslySetInnerHTML={{ __html: ellipsis(body, props.length, { ellipsis: '…' }) }}
-    />
+    <div className="bodyShort">
+      <h2>{props.title}</h2>
+      <div
+        className={props.className}
+        dangerouslySetInnerHTML={{ __html: ellipsis(body, props.length, { ellipsis: '…' }) }}
+      />
+    </div>
   );
   /* eslint-enable react/no-danger */
 };
@@ -33,11 +36,13 @@ BodyShort.propTypes = {
   className: PropTypes.string,
   body: PropTypes.string,
   length: PropTypes.number,
+  title: PropTypes.string,
 };
 
 BodyShort.defaultProps = {
   className: '',
   body: '',
+  title: '',
   length: 140,
 };
 

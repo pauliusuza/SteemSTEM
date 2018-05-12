@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import DiscoverContent from './DiscoverContent';
-import Affix from '../components/Utils/Affix';
 import './Discover.less';
 
 const Discover = ({ intl }) => (
@@ -16,11 +14,6 @@ const Discover = ({ intl }) => (
       </title>
     </Helmet>
     <div className="feed-layout container">
-      <Affix className="leftContainer" stickPosition={77}>
-        <div className="left">
-          <LeftSidebar />
-        </div>
-      </Affix>
       <div className="Discover">
         <div className="Discover__title">
           <h1>

@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
 const _ = require('lodash');
@@ -45,7 +45,7 @@ function makePlugins(options) {
         // This has effect on the react lib size
         NODE_ENV: isDevelopment ? JSON.stringify('development') : JSON.stringify('production'),
         ENABLE_LOGGER: JSON.stringify(process.env.ENABLE_LOGGER),
-        STEEMCONNECT_CLIENT_ID: JSON.stringify(process.env.STEEMCONNECT_CLIENT_ID || 'busy.app'),
+        STEEMCONNECT_CLIENT_ID: JSON.stringify(process.env.STEEMCONNECT_CLIENT_ID || 'steemstem.app'),
         STEEMCONNECT_REDIRECT_URL: JSON.stringify(
           process.env.STEEMCONNECT_REDIRECT_URL || 'http://localhost:3000/callback',
         ),
@@ -54,7 +54,7 @@ function makePlugins(options) {
         ),
         STEEMJS_URL: JSON.stringify(process.env.STEEMJS_URL || 'https://api.steemit.com'),
         IS_BROWSER: JSON.stringify(true),
-        SIGNUP_URL: JSON.stringify(process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=busy'),
+        SIGNUP_URL: JSON.stringify(process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=steemstem'),
       },
     }),
     new LodashModuleReplacementPlugin({
@@ -84,6 +84,7 @@ function makePlugins(options) {
       ]),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      /*
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks(module) {
@@ -95,12 +96,15 @@ function makePlugins(options) {
         name: 'manifest',
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
-      new ExtractTextPlugin({
-        allChunks: true,
-        filename: '../css/style.[contenthash].css',
+      */
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "../css/[name].[hash].css",
+        chunkFilename: "../css/[id].[hash].css"
       }),
       new HtmlWebpackPlugin({
-        title: 'Busy',
+        title: 'SteemSTEM',
         filename: '../index.html',
         template: path.join(options.baseDir, '/templates/production_index.html'),
       }),
@@ -116,9 +120,7 @@ function makeStyleLoaders(options) {
       {
         test: configUtils.MATCH_CSS_LESS,
         use: [
-          {
-            loader: 'style-loader',
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -128,7 +130,7 @@ function makeStyleLoaders(options) {
           },
           POSTCSS_LOADER,
           {
-            loader: 'less-loader',
+            loader: 'less-loader', options: { javascriptEnabled: true }
           },
         ],
       },
@@ -138,21 +140,19 @@ function makeStyleLoaders(options) {
   return [
     {
       test: configUtils.MATCH_CSS_LESS,
-      loader: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-            },
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
           },
-          POSTCSS_LOADER,
-          {
-            loader: 'less-loader',
-          },
-        ],
-      }),
+        },
+        POSTCSS_LOADER,
+        {
+          loader: 'less-loader', options: { javascriptEnabled: true }
+        },
+      ],
     },
   ];
 }
@@ -163,7 +163,7 @@ function makeConfig(options = {}) {
   const isDevelopment = options.isDevelopment;
 
   return {
-    devtool: isDevelopment ? 'eval-source-map' : 'source-map',
+    mode: isDevelopment ? 'development': 'production',
     entry: {
       main: (isDevelopment
         ? [
@@ -181,6 +181,39 @@ function makeConfig(options = {}) {
       path: path.join(options.baseDir, '/public/js'),
       filename: options.isDevelopment ? 'bundle.js' : 'busyapp-[name].[chunkhash].js',
       publicPath: '/js/',
+    },
+    optimization: {
+      splitChunks: {
+        chunks: "async",
+      	minSize: 30000,
+      	minChunks: 1,
+      	maxAsyncRequests: 5,
+      	maxInitialRequests: 3,
+      	name: true,
+      	cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            chunks: "all"
+          },
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true
+          }
+      	}
+      },
+      runtimeChunk: true
+      /*
+      minimizer: [
+        new UglifyJsPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: true // set to true if you want JS source maps
+        }),
+        new OptimizeCSSAssetsPlugin({})
+      ]*/
     },
     plugins: makePlugins(options),
     module: {

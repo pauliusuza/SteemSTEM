@@ -3,65 +3,8 @@ import _ from 'lodash';
 import { setUsedLocale } from '../app/appActions';
 import { getLocale } from '../reducers';
 
-export const availableLocalesToReactIntl = {
-  'af-ZA': '',
-  'ar-SA': 'ar',
-  'as-IN': 'as',
-  'bg-BG': 'bg',
-  'bn-BD': '',
-  'bn-IN': 'bn',
-  'bs-BA': '',
-  'ca-ES': 'ca',
-  'cs-CZ': 'cs',
-  'da-DK': 'da',
-  'de-DE': 'de',
-  'el-GR': 'el',
-  'en-US': 'en',
-  'eo-UY': '',
-  'es-ES': 'es',
-  'et-EE': 'et',
-  'fi-FI': '',
-  'fil-PH': 'fil',
-  'fr-FR': 'fr',
-  'ha-HG': '',
-  'he-IL': 'he',
-  'hi-IN': 'hi',
-  'hr-HR': 'hr',
-  'hu-HU': 'hu',
-  'id-ID': 'id',
-  'ig-NG': '',
-  'it-IT': 'it',
-  'ja-JP': 'ja',
-  'ko-KR': 'ko',
-  'lo-LA': 'lo',
-  'ms-MY': 'ms',
-  'ne-NP': 'np',
-  'nl-NL': 'nl',
-  'no-NO': 'no',
-  'or-IN': '',
-  'pcm-NG': '',
-  'pl-PL': 'pl',
-  'pt-BR': 'pt',
-  'pt-PT': '',
-  'ro-RO': 'ro',
-  'ru-RU': 'ru',
-  'sk-SK': '',
-  'sl-SI': 'sl',
-  'sr-SP': '',
-  'sv-SE': 'sv',
-  'ta-IN': 'ta',
-  'th-TH': 'th',
-  'tr-TR': 'tr',
-  'tt-RU': '',
-  'uk-UA': 'uk',
-  'vi-VN': 'vi',
-  'vls-BE': '',
-  'yo-NG': 'yo',
-  'zh-CN': 'zh',
-  'zh-TW': 'zh',
-};
-
-export const rtlLocales = ['he', 'ar', 'far', 'yi', 'ku', 'ur', 'dv', 'ha', 'ps'];
+export const availableLocalesToReactIntl = {};
+export const rtlLocales = [];
 
 export const getBrowserLocale = () => {
   let detectedLocale;
@@ -105,12 +48,9 @@ export const loadTranslations = async store => {
   const locale = getLocale(state);
   const availableLocale = getAvailableLocale(locale);
   const translationsLocale = getTranslationsByLocale(locale);
-
   const localeDataPromise = await import(`react-intl/locale-data/${availableLocale}`);
   const translationsPromise = await import(`../locales/${translationsLocale}.json`);
-
   const [localeData, translations] = await Promise.all([localeDataPromise, translationsPromise]);
-
   addLocaleData(localeData);
   global.translations = translations;
   store.dispatch(setUsedLocale(availableLocale));

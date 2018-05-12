@@ -20,8 +20,6 @@ import { reload } from '../auth/authActions';
 import { notify } from '../app/Notification/notificationActions';
 import Action from '../components/Button/Action';
 import Loading from '../components/Icon/Loading';
-import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RawSlider from '../components/Slider/RawSlider';
 import requiresLogin from '../auth/requiresLogin';
 import './Settings.less';
@@ -242,11 +240,6 @@ export default class Settings extends React.Component {
           <title>{intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' })} - Busy</title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="settings" defaultMessage="Settings" />

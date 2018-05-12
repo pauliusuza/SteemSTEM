@@ -14,7 +14,12 @@
       "plugins": "react-hot-loader/babel"
     },
     "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
+      "presets": [
+        "env",
+        "react",
+        "stage-2",
+      ],
+      "plugins": ["transform-es2015-modules-commonjs", "transform-decorators-legacy"]
     }
   },
   "plugins": [

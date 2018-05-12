@@ -128,10 +128,8 @@ export default class Wrapper extends React.PureComponent {
   loadLocale(locale) {
     const availableLocale = getAvailableLocale(locale);
     const translationsLocale = getTranslationsByLocale(locale);
-
     const localeDataPromise = import(`react-intl/locale-data/${availableLocale}`);
     const translationsPromise = import(`./locales/${translationsLocale}.json`);
-
     Promise.all([localeDataPromise, translationsPromise]).then(([localeData, translations]) => {
       addLocaleData(localeData);
       this.setState({

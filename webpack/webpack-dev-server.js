@@ -7,18 +7,36 @@ const configUtils = require('./configUtils');
 const baseDir = path.resolve(__dirname, '..');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  mode: 'development',
   entry: path.resolve(baseDir, './src/client/index.js'),
   output: {
     filename: 'bundle.js',
     publicPath: '/js/',
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "async",
+    	minSize: 30000,
+    	minChunks: 1,
+    	maxAsyncRequests: 5,
+    	maxInitialRequests: 3,
+    	name: true,
+    	cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: "all"
+        }
+    	}
+    },
+    runtimeChunk: true
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
         ENABLE_LOGGER: JSON.stringify(process.env.ENABLE_LOGGER),
-        STEEMCONNECT_CLIENT_ID: JSON.stringify(process.env.STEEMCONNECT_CLIENT_ID || 'busy.app'),
+        STEEMCONNECT_CLIENT_ID: JSON.stringify(process.env.STEEMCONNECT_CLIENT_ID || 'steemstem.app'),
         STEEMCONNECT_REDIRECT_URL: JSON.stringify(
           process.env.STEEMCONNECT_REDIRECT_URL || 'http://localhost:3000/callback',
         ),
@@ -27,7 +45,7 @@ module.exports = {
         ),
         STEEMJS_URL: JSON.stringify(process.env.STEEMJS_URL || 'https://api.steemit.com'),
         IS_BROWSER: JSON.stringify(true),
-        SIGNUP_URL: JSON.stringify(process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=busy'),
+        SIGNUP_URL: JSON.stringify(process.env.SIGNUP_URL || 'https://signup.steemit.com/?ref=steemstem'),
       },
     }),
   ],
@@ -64,7 +82,7 @@ module.exports = {
               ],
             },
           },
-          'less-loader',
+          { loader: 'less-loader', options: { javascriptEnabled: true } },
         ],
       },
     ],

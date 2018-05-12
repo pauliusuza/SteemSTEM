@@ -12,8 +12,6 @@ import withEditor from '../components/Editor/withEditor';
 import EditorInput from '../components/Editor/EditorInput';
 import Body, { remarkable } from '../components/Story/Body';
 import Action from '../components/Button/Action';
-import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import requiresLogin from '../auth/requiresLogin';
 import './Settings.less';
 
@@ -147,11 +145,6 @@ export default class ProfileSettings extends React.Component {
           </title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="edit_profile" defaultMessage="Edit Profile" />

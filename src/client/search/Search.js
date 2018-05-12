@@ -6,9 +6,7 @@ import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { getSearchResults, getSearchLoading } from '../reducers';
 import { searchAskSteem } from './searchActions';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import SearchResultEmptyMessage from './SearchResultEmptyMessage';
-import Affix from '../components/Utils/Affix';
 import Loading from '../components/Icon/Loading';
 import SearchResultPostPreview from './SearchResultPostPreview';
 import SearchResultUserPreview from './SearchResultUserPreview';
@@ -90,11 +88,6 @@ class Search extends React.Component {
         <Helmet>
           <title>{intl.formatMessage({ id: 'search', defaultMessage: 'Search' })} - Busy</title>
         </Helmet>
-        <Affix className="leftContainer" stickPosition={77}>
-          <div className="left">
-            <LeftSidebar />
-          </div>
-        </Affix>
         <div className="center">
           <h1 className="Search__title">
             <FormattedMessage id="search_results" defaultMessage="Search results" />

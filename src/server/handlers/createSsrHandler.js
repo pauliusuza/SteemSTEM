@@ -62,8 +62,8 @@ export default function createSsrHandler(template) {
       const state = store.getState();
       const useBeta = getUseBeta(state);
 
-      if (useBeta && req.hostname === 'busy.org') {
-        return res.redirect(`https://staging.busy.org${req.originalUrl}`);
+      if (useBeta && req.hostname === 'steemstem.com') {
+        return res.redirect(`https://staging.steemstem.com${req.originalUrl}`);
       }
 
       const availableLocale = getAvailableLocale(getLocale(state));
@@ -83,7 +83,7 @@ export default function createSsrHandler(template) {
         res.status(context.status);
       }
 
-      return res.send(renderSsrPage(store, content, template, appUrl !== 'https://busy.org'));
+      return res.send(renderSsrPage(store, content, template, appUrl !== 'https://steemstem.com'));
     } catch (err) {
       console.error('SSR error occured, falling back to bundled application instead', err);
       return res.send(template);
