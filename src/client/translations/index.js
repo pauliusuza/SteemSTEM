@@ -1,57 +1,46 @@
 import { addLocaleData } from 'react-intl';
-import _ from 'lodash';
-import { setUsedLocale } from '../app/appActions';
-import { getLocale } from '../reducers';
+import LANGUAGES from './languages';
 
-export const availableLocalesToReactIntl = {};
-export const rtlLocales = [];
+export function findLanguage(locale) {
+  return LANGUAGES.find(language => language.variants.indexOf(locale) !== -1) || LANGUAGES[0];
+}
 
-export const getBrowserLocale = () => {
-  let detectedLocale;
+export function getRequestLocale(locales) {
+  if (locales === '*') return LANGUAGES[0];
+
+  return locales.split(',').map(lang => lang.split(';')[0])[0];
+}
+
+export function getBrowserLocale() {
   if (typeof navigator !== 'undefined') {
-    detectedLocale =
+    return (
       navigator.userLanguage ||
       navigator.language ||
-      (navigator.languages && navigator.languages[0] ? navigator.languages[0] : undefined);
+      (navigator.languages && navigator.languages[0] ? navigator.languages[0] : undefined)
+    );
   }
-  if (detectedLocale) {
-    return detectedLocale.slice(0, 2);
-  }
+
   return undefined;
-};
+}
 
-export const getLocaleDirection = locale => (rtlLocales.includes(locale) ? 'rtl' : 'ltr');
+export function getLanguageText(language) {
+  if (language.name === language.nativeName) return language.name;
 
-export const getAvailableLocale = appLocale => {
-  const locale = appLocale || 'auto';
+  return `${language.nativeName} - ${language.name}`;
+}
 
-  if (appLocale === 'auto') {
-    return getBrowserLocale() || 'en';
-  }
+export async function loadLanguage(locale) {
+  const language = findLanguage(locale);
 
-  return _.get(availableLocalesToReactIntl, locale, 'en');
-};
+  const localeDataPromise = import(`react-intl/locale-data/${language.localeData}`);
+  const translationsPromise = import(`../locales/${language.translations}`);
 
-export const getTranslationsByLocale = appLocale => {
-  const allTranslations = _.keys(availableLocalesToReactIntl);
-
-  if (appLocale === 'auto') {
-    const browserLocale = getBrowserLocale();
-    return _.findKey(availableLocalesToReactIntl, locale => locale === browserLocale) || 'default';
-  }
-
-  return _.get(allTranslations, _.indexOf(allTranslations, appLocale), 'default');
-};
-
-export const loadTranslations = async store => {
-  const state = store.getState();
-  const locale = getLocale(state);
-  const availableLocale = getAvailableLocale(locale);
-  const translationsLocale = getTranslationsByLocale(locale);
-  const localeDataPromise = await import(`react-intl/locale-data/${availableLocale}`);
-  const translationsPromise = await import(`../locales/${translationsLocale}.json`);
   const [localeData, translations] = await Promise.all([localeDataPromise, translationsPromise]);
-  addLocaleData(localeData);
-  global.translations = translations;
-  store.dispatch(setUsedLocale(availableLocale));
-};
+
+  addLocaleData(localeData.default);
+
+  return {
+    id: language.id,
+    translations,
+  };
+}

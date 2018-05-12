@@ -9,6 +9,7 @@ import SubFeed from './SubFeed';
 import HeroBannerContainer from './HeroBannerContainer';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import TopicSelector from '../components/TopicSelector';
+import TrendingTagsMenu from '../components/TrendingTagsMenu';
 import Affix from '../components/Utils/Affix';
 import ScrollToTop from '../components/Utils/ScrollToTop';
 import ScrollToTopOnMount from '../components/Utils/ScrollToTopOnMount';
@@ -27,7 +28,7 @@ class Page extends React.Component {
     match: PropTypes.shape().isRequired,
   };
 
-  static fetchData(store, match) {
+  static fetchData({ store, match }) {
     const { sortBy, category } = match.params;
     return store.dispatch(getFeedContent({ sortBy, category, limit: 10 }));
   }
@@ -48,6 +49,7 @@ class Page extends React.Component {
     const { category, sortBy } = match.params;
 
     const shouldDisplaySelector = location.pathname !== '/' || (!authenticated && loaded);
+    const displayTopicSelector = location.pathname === '/trending';
 
     const robots = location.pathname === '/' ? 'index,follow' : 'noindex,follow';
 
@@ -63,6 +65,7 @@ class Page extends React.Component {
         <div className="shifted">
           <div className="feed-layout container">
             <div className="center">
+              {displayTopicSelector && <TrendingTagsMenu />}
               {shouldDisplaySelector && (
                 <TopicSelector
                   isSingle={false}

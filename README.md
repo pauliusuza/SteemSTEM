@@ -6,14 +6,15 @@ Forked from Busy, an Open Source social network and communications platform for 
 For more info: https://github.com/busyorg/busy
 
 ## Preview
+
 ![Preview](https://user-images.githubusercontent.com/16245250/35974135-6fe56d5a-0d0a-11e8-99f6-a90d59696f82.png)
 
-## Usage
+## Quick Setup
 
 ```
 git clone https://github.com/BuildTeamDev/steemSTEM.git
 cd busy
 
-yarn install
-yarn dev-server
+yarn
+yarn start
 ```

@@ -5,8 +5,8 @@ module.exports = {
    */
   apps: [
     {
+      script: 'build/server.js',
       name: 'steemstem',
-      script: 'dist/busy.server.js',
       instances: 1,
       exec_mode: 'cluster',
       max_memory_restart: '600M',

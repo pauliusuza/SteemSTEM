@@ -9,7 +9,7 @@ import {
   FormattedTime,
 } from 'react-intl';
 import { Link, withRouter } from 'react-router-dom';
-import { Tag, Tooltip } from 'antd';
+import { Tag } from 'antd';
 import formatter from '../../helpers/steemitFormatter';
 import { getHasDefaultSlider } from '../../helpers/user';
 import {
@@ -19,6 +19,7 @@ import {
   isBannedPost,
 } from '../../helpers/postHelpers';
 import withAuthActions from '../../auth/withAuthActions';
+import BTooltip from '../BTooltip';
 import StoryPreview from './StoryPreview';
 import StoryFooter from '../StoryFooter/StoryFooter';
 import Avatar from '../Avatar';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { getIsAuthenticated, getAuthenticatedUserName, getFeed } from '../reducers';
 import {
   getFeedFromState,
@@ -16,7 +17,7 @@ import Affix from '../components/Utils/Affix';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import requiresLogin from '../auth/requiresLogin';
 
-export class IReplies extends React.Component {
+class Replies extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
     authenticated: PropTypes.bool,
@@ -37,7 +38,9 @@ export class IReplies extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.authenticated) {
+    const { username, feed, authenticated } = this.props;
+    const content = getFeedFromState('replies', username, feed);
+    if (authenticated && _.isEmpty(content)) {
       this.props.getReplies();
     }
   }
@@ -87,5 +90,5 @@ const mapStateToProps = state => ({
 });
 
 export default requiresLogin(
-  injectIntl(connect(mapStateToProps, { getReplies, getMoreReplies })(IReplies)),
+  injectIntl(connect(mapStateToProps, { getReplies, getMoreReplies })(Replies)),
 );

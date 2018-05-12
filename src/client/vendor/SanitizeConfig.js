@@ -42,13 +42,17 @@ const iframeWhitelist = [
     re: /^(https?:)?\/\/(?:www\.)?(?:(player.)?twitch.tv\/)(.*)?$/i,
     fn: src => src, // handled by embedjs
   },
+  {
+    re: /^(https?:)?\/\/(?:www\.)?(?:bitchute\.com\/)(.*)?$/i,
+    fn: src => src, // handled by embedjs
+  },
 ];
 export const noImageText = '(Image not shown due to low ratings)';
 export const allowedTags = `
     div, iframe, del,
     a, p, b, q, br, ul, li, ol, img, h1, h2, h3, h4, h5, h6, hr,
     blockquote, pre, code, em, strong, center, table, thead, tbody, tr, th, td,
-    strike, sup, sub
+    strike, sup, sub, details, summary
 `
   .trim()
   .split(/,\s*/);
@@ -155,11 +159,13 @@ export default ({ large = true, noImage = false, sanitizeErrors = [] }) => ({
       let { href } = attribs;
       if (!href) href = '#';
       href = href.trim();
-      const attys = { href };
+      const attys = {};
+      // If it's not a (relative or absolute) steemit URL...
       if (!href.match(/^^(\/|https:\/\/(staging\.)?busy\.org(?![\w\.]+))/)) {
-        attys.target = '_blank'; // pending iframe impl https://mathiasbynens.github.io/rel-noopener/
-        attys.rel = 'nofollow noopener';
+        attys.target = '_blank';
+        href = `/exit?url=${encodeURI(href)}`;
       }
+      attys.href = href;
       return {
         tagName,
         attribs: attys,

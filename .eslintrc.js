@@ -16,11 +16,7 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  extends: [
-    'airbnb',
-    'prettier',
-    'prettier/react'
-  ],
+  extends: ['airbnb', 'prettier', 'prettier/react'],
   rules: {
     'linebreak-style': ["error", "windows"],
     'jsx-a11y/anchor-is-valid': 0,
@@ -31,8 +27,9 @@ module.exports = {
     'react/jsx-filename-extension': [ERROR, { extensions: ['.js'] }],
     'import/no-extraneous-dependencies': [
       ERROR,
-      { devDependencies: ['**/__tests__/*.js', 'scripts/**/*.js'] },
+      { devDependencies: ['**/__tests__/*.js', 'scripts/**/*.js', 'webpack/**/*.js'] },
     ],
     'no-console': OFF,
+    'global-require': OFF,
   },
 };

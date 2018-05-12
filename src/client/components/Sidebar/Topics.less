@@ -1,21 +1,37 @@
+@import (reference) '../../styles/custom.less';
 @text-color: #99aab5;
 
 .Topics {
   min-width: 150px;
   & > h4 {
     color: @text-color;
-    margin: 16px 0;
     font-weight: 500;
+    margin-bottom: 16px;
   }
 
-  & > h5 {
+  &:not(:first-child) {
+    & > h4 {
+      margin-top: 16px;
+    }
+  }
+
+  & > a {
     color: @text-color;
+    display: inline-block;
     margin: 12px 0;
     font-size: 14px;
     font-weight: 500;
 
     &:hover {
       cursor: pointer;
+    }
+
+    &:hover {
+      color: @primary-color;
+    }
+
+    &:focus {
+      text-decoration: none;
     }
   }
 
