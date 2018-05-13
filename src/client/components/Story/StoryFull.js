@@ -13,7 +13,6 @@ import {
 } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Tag, Icon } from 'antd';
-import Lightbox from 'react-image-lightbox';
 import { Scrollbars } from 'react-custom-scrollbars';
 import formatter from '../../helpers/steemitFormatter';
 import { getFromMetadata, extractImageTags } from '../../helpers/parser';
@@ -203,8 +202,6 @@ class StoryFull extends React.Component {
       onEditClick,
     } = this.props;
     const { isReported } = postState;
-
-    const { open, index } = this.state.lightbox;
 
     let signedBody = post.body;
     if (signature) {
@@ -438,38 +435,6 @@ class StoryFull extends React.Component {
           </Popover>
         </div>
         <div className="StoryFull__content">{content}</div>
-        {open && (
-          <Lightbox
-            imageTitle={this.images[index].alt}
-            mainSrc={this.images[index].src}
-            nextSrc={this.images[(index + 1) % this.images.length].src}
-            prevSrc={this.images[(index + (this.images.length - 1)) % this.images.length].src}
-            onCloseRequest={() => {
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  open: false,
-                },
-              });
-            }}
-            onMovePrevRequest={() =>
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  index: (index + (this.images.length - 1)) % this.images.length,
-                },
-              })
-            }
-            onMoveNextRequest={() =>
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  index: (index + (this.images.length + 1)) % this.images.length,
-                },
-              })
-            }
-          />
-        )}
         <div className="StoryFull__topics">
           <Scrollbars
             universal

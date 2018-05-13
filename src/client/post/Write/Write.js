@@ -11,7 +11,6 @@ import { getHtml } from '../../components/Story/Body';
 import improve from '../../helpers/improve';
 import { extractImageTags, extractLinks } from '../../helpers/parser';
 import { rewardsValues } from '../../../common/constants/rewards';
-import LastDraftsContainer from './LastDraftsContainer';
 import DeleteDraftModal from './DeleteDraftModal';
 
 import {
@@ -25,7 +24,6 @@ import {
 
 import { createPost, saveDraft, newPost } from './editorActions';
 import Editor from '../../components/Editor/Editor';
-import Affix from '../../components/Utils/Affix';
 
 const version = require('../../../../package.json').version;
 
@@ -297,9 +295,6 @@ class Write extends React.Component {
               onDelete={this.onDelete}
             />
           </div>
-          <Affix className="rightSidebar" stickPosition={77}>
-            <GetBoost />
-          </Affix>
           {this.state.showModalDelete && (
             <DeleteDraftModal
               draftId={draftId}

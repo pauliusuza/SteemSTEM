@@ -183,7 +183,7 @@ export default class User extends React.Component {
           <div className="feed-layout container">
             {loaded && <div className="center">{renderRoutes(this.props.route.routes)}</div>}
             <Affix className="rightSidebar" stickPosition={72}>
-              {loaded && <RightSidebar key={user.name} />}
+              {loaded ? <RightSidebar key={user.name} /> : null}
             </Affix>
           </div>
         </div>

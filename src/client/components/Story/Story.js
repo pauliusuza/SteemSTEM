@@ -331,14 +331,14 @@ class Story extends React.Component {
                   <Link to={`/@${post.author}`}>
                     <h4>
                       <span className="username">{post.author}</span>
-                      <Tooltip title={intl.formatMessage({ id: 'reputation_score' })}>
+                      <BTooltip title={intl.formatMessage({ id: 'reputation_score' })}>
                         <Tag>{postAuthorReputation}</Tag>
-                      </Tooltip>
+                      </BTooltip>
                     </h4>
                   </Link>
                 </span>
                 <span>
-                  <Tooltip
+                  <BTooltip
                     title={
                       <span>
                         <FormattedDate value={`${post.created}Z`} />{' '}
@@ -349,7 +349,7 @@ class Story extends React.Component {
                     <span className="Story__date">
                       <FormattedRelative value={`${post.created}Z`} />
                     </span>
-                  </Tooltip>
+                  </BTooltip>
                   <PostedFrom post={post} />
                 </span>
               </div>
