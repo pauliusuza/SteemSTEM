@@ -2,8 +2,10 @@
 
 .drafts-layout {
   position: relative;
-  @media only screen and (max-width: 1200px) {
-    padding: 0 @mobile-padding;
+  padding: 0 @mobile-padding;
+
+  @media @large {
+    padding: auto;
   }
 
   &:after {
@@ -12,27 +14,8 @@
     clear: both;
   }
 
-  .left {
-    width: @left-width;
-  }
-
-  .leftContainer {
-    float: left;
-    display: none;
-    width: @left-width;
-
-    @media @medium {
-      display: block;
-    }
-  }
-
   .center {
     float: left;
     width: 100%;
-
-    @media @medium {
-      width: calc(100% ~'-' (@left-width + @margin));
-      margin-left: @margin;
-    }
   }
 }

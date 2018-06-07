@@ -7,9 +7,9 @@ import { getFeedContent } from './feedActions';
 import { getIsLoaded, getIsAuthenticated } from '../reducers';
 import SubFeed from './SubFeed';
 import HeroBannerContainer from './HeroBannerContainer';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import TopicSelector from '../components/TopicSelector';
+import TrendingTagsMenu from '../components/TrendingTagsMenu';
 import Affix from '../components/Utils/Affix';
 import ScrollToTop from '../components/Utils/ScrollToTop';
 import ScrollToTopOnMount from '../components/Utils/ScrollToTopOnMount';
@@ -28,7 +28,7 @@ class Page extends React.Component {
     match: PropTypes.shape().isRequired,
   };
 
-  static fetchData(store, match) {
+  static fetchData({ store, match }) {
     const { sortBy, category } = match.params;
     return store.dispatch(getFeedContent({ sortBy, category, limit: 10 }));
   }
@@ -49,6 +49,7 @@ class Page extends React.Component {
     const { category, sortBy } = match.params;
 
     const shouldDisplaySelector = location.pathname !== '/' || (!authenticated && loaded);
+    const displayTopicSelector = location.pathname === '/trending';
 
     const robots = location.pathname === '/' ? 'index,follow' : 'noindex,follow';
 
@@ -63,17 +64,8 @@ class Page extends React.Component {
         <HeroBannerContainer />
         <div className="shifted">
           <div className="feed-layout container">
-            <Affix className="leftContainer" stickPosition={77}>
-              <div className="left">
-                <LeftSidebar />
-              </div>
-            </Affix>
-            <Affix className="rightContainer" stickPosition={77}>
-              <div className="right">
-                <RightSidebar />
-              </div>
-            </Affix>
             <div className="center">
+              {displayTopicSelector && <TrendingTagsMenu />}
               {shouldDisplaySelector && (
                 <TopicSelector
                   isSingle={false}
@@ -86,6 +78,9 @@ class Page extends React.Component {
               {authenticated && <QuickPostEditor />}
               <SubFeed />
             </div>
+            <Affix className="rightSidebar" stickPosition={77}>
+              <RightSidebar />
+            </Affix>
           </div>
         </div>
       </div>

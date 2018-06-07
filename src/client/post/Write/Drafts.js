@@ -8,8 +8,6 @@ import { Checkbox } from 'antd';
 import Loading from '../../components/Icon/Loading';
 import { reload } from '../../auth/authActions';
 import { getDraftPosts, getPendingDrafts, getIsReloading } from '../../reducers';
-import Affix from '../../components/Utils/Affix';
-import LeftSidebar from '../../app/Sidebar/LeftSidebar';
 import DraftRow from './DraftRow';
 import DeleteDraftModal from './DeleteDraftModal';
 import requiresLogin from '../../auth/requiresLogin';
@@ -88,10 +86,12 @@ class Drafts extends React.Component {
   render() {
     const { intl, reloading, draftPosts, pendingDrafts } = this.props;
     const { showModalDelete, selectedDrafts } = this.state;
-    const sortedDraftPosts = _.sortBy(
-      _.map(draftPosts, (draft, id) => ({ ...draft, id })),
-      draft => new Date(draft.lastUpdated),
-    ).reverse();
+    const sortedDraftPosts = _
+      .sortBy(
+        _.map(draftPosts, (draft, id) => ({ ...draft, id })),
+        draft => new Date(draft.lastUpdated),
+      )
+      .reverse();
     const noDrafts = !reloading && _.size(draftPosts) === 0;
 
     return (
@@ -100,11 +100,6 @@ class Drafts extends React.Component {
           <title>{intl.formatMessage({ id: 'drafts', defaultMessage: 'Drafts' })} - Busy</title>
         </Helmet>
         <div className="drafts-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <div>
               <h1>

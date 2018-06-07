@@ -10,10 +10,8 @@ import { getIsReloading, getAuthenticatedUser } from '../reducers';
 import socialProfiles from '../helpers/socialProfiles';
 import withEditor from '../components/Editor/withEditor';
 import EditorInput from '../components/Editor/EditorInput';
-import Body, { remarkable } from '../components/Story/Body';
+import Body, { converter } from '../components/Story/Body';
 import Action from '../components/Button/Action';
-import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import requiresLogin from '../auth/requiresLogin';
 import './Settings.less';
 
@@ -100,7 +98,7 @@ export default class ProfileSettings extends React.Component {
 
   renderBody(body) {
     this.setState({
-      bodyHTML: remarkable.render(body),
+      bodyHTML: converter.makeHtml(body),
     });
   }
 
@@ -147,11 +145,6 @@ export default class ProfileSettings extends React.Component {
           </title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="edit_profile" defaultMessage="Edit Profile" />

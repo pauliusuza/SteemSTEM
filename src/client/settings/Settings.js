@@ -20,12 +20,12 @@ import { reload } from '../auth/authActions';
 import { notify } from '../app/Notification/notificationActions';
 import Action from '../components/Button/Action';
 import Loading from '../components/Icon/Loading';
-import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RawSlider from '../components/Slider/RawSlider';
 import requiresLogin from '../auth/requiresLogin';
-import { SUPPORTED_LANGUAGES } from '../../common/constants/settings';
+import LANGUAGES from '../translations/languages';
+import { getLanguageText } from '../translations';
 import './Settings.less';
+import packageJson from '../../../package.json';
 
 @requiresLogin
 @injectIntl
@@ -185,10 +185,10 @@ export default class Settings extends React.Component {
       );
     }
 
-    Object.keys(SUPPORTED_LANGUAGES).forEach(key => {
+    LANGUAGES.forEach(lang => {
       languageOptions.push(
-        <Select.Option key={key} value={key}>
-          {SUPPORTED_LANGUAGES[key].longName}
+        <Select.Option key={lang.id} value={lang.id}>
+          {getLanguageText(lang)}
         </Select.Option>,
       );
     });
@@ -199,11 +199,6 @@ export default class Settings extends React.Component {
           <title>{intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' })} - Busy</title>
         </Helmet>
         <div className="settings-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <h1>
               <FormattedMessage id="settings" defaultMessage="Settings" />
@@ -357,6 +352,15 @@ export default class Settings extends React.Component {
                   text={this.props.intl.formatMessage({ id: 'save', defaultMessage: 'Save' })}
                   onClick={this.handleSave}
                 />
+                <div className="Settings__version">
+                  <p>
+                    <FormattedMessage
+                      id="version"
+                      defaultMessage="Version: {version}"
+                      values={{ version: packageJson.version }}
+                    />
+                  </p>
+                </div>
               </div>
             )}
           </div>

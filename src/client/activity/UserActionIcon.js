@@ -43,7 +43,14 @@ class UserActionIcon extends React.Component {
           customActionType === accountHistoryConstants.FOLLOW &&
           currentUsername === customActionDetails.follower
         ) {
-          return _.isEmpty(customActionDetails.what) ? 'icon-addpeople' : 'icon-addpeople_fill';
+          switch (customActionDetails.what[0]) {
+            case 'ignore':
+              return 'icon-delete_fill';
+            case 'blog':
+              return 'icon-addpeople_fill';
+            default:
+              return 'icon-addpeople';
+          }
         }
 
         return null;
@@ -52,6 +59,9 @@ class UserActionIcon extends React.Component {
       case accountHistoryConstants.CURATION_REWARD:
         return 'icon-ranking';
       case accountHistoryConstants.COMMENT:
+        if (actionDetails.parent_author === '') {
+          return 'icon-brush_fill';
+        }
         if (currentUsername === actionDetails.author) {
           return 'icon-message_fill';
         }

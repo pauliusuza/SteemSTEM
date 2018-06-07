@@ -4,21 +4,19 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import sanitizeHtml from 'sanitize-html';
-import Remarkable from 'remarkable';
+import showdown from 'showdown';
 import embedjs from 'embedjs';
 import { jsonParse } from '../../helpers/formatter';
 import sanitizeConfig from '../../vendor/SanitizeConfig';
-import { imageRegex, dtubeImageRegex } from '../../helpers/regexHelpers';
+import { imageRegex, dtubeImageRegex, rewriteRegex } from '../../helpers/regexHelpers';
 import htmlReady from '../../vendor/steemitHtmlReady';
+import improve from '../../helpers/improve';
 import PostFeedEmbed from './PostFeedEmbed';
 import './Body.less';
 
-export const remarkable = new Remarkable({
-  html: true, // remarkable renders first then sanitize runs...
-  breaks: true,
-  linkify: false, // linkify is done locally
-  typographer: false, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
-  quotes: '“”‘’',
+export const converter = new showdown.Converter({
+  tables: true,
+  strikethrough: true,
 });
 
 const getEmbed = link => {
@@ -51,26 +49,26 @@ export function getHtml(body, jsonMetadata = {}, returnType = 'Object', options 
     }
   });
 
+  parsedBody = improve(parsedBody);
+  parsedBody = converter.makeHtml(parsedBody);
+
   const htmlReadyOptions = { mutate: true, resolveIframe: returnType === 'text' };
-  parsedBody = remarkable.render(parsedBody);
   parsedBody = htmlReady(parsedBody, htmlReadyOptions).html;
   parsedBody = parsedBody.replace(dtubeImageRegex, '');
-  parsedBody = sanitizeHtml(parsedBody, sanitizeConfig({}));
+
+  if (options.rewriteLinks) {
+    parsedBody = parsedBody.replace(rewriteRegex, (match, p1) => `"${p1 || '/'}"`);
+  }
+
+  parsedBody = sanitizeHtml(
+    parsedBody,
+    sanitizeConfig({
+      secureLinks: options.secureLinks,
+    }),
+  );
   if (returnType === 'text') {
     return parsedBody;
   }
-
-  if (options.rewriteLinks) {
-    parsedBody = parsedBody.replace(
-      /"https?:\/\/(?:www)?steemit.com\/([A-Za-z0-9@/\-.]*)"/g,
-      (match, p1) => `"/${p1}"`,
-    );
-  }
-
-  parsedBody = parsedBody.replace(
-    /https:\/\/ipfs\.busy\.org\/ipfs\/(\w+)/g,
-    (match, p1) => `https://gateway.ipfs.io/ipfs/${p1}`,
-  );
 
   const sections = [];
 
@@ -100,6 +98,7 @@ export function getHtml(body, jsonMetadata = {}, returnType = 'Object', options 
 const Body = props => {
   const options = {
     rewriteLinks: props.rewriteLinks,
+    secureLinks: true,
   };
   const htmlSections = getHtml(props.body, props.jsonMetadata, 'Object', options);
   return <div className={classNames('Body', { 'Body--full': props.full })}>{htmlSections}</div>;

@@ -24,7 +24,6 @@ import {
 
 import { createPost, saveDraft, newPost } from './editorActions';
 import Editor from '../../components/Editor/Editor';
-import Affix from '../../components/Utils/Affix';
 
 const version = require('../../../../package.json').version;
 
@@ -60,6 +59,7 @@ class Write extends React.Component {
     newPost: PropTypes.func,
     createPost: PropTypes.func,
     saveDraft: PropTypes.func,
+    notify: PropTypes.func,
     replace: PropTypes.func,
   };
 
@@ -93,6 +93,7 @@ class Write extends React.Component {
     this.props.newPost();
     const { draftPosts, draftId } = this.props;
     const draftPost = draftPosts[draftId];
+
     if (draftPost) {
       let tags = [];
       if (_.isArray(draftPost.jsonMetadata.tags)) {
@@ -127,7 +128,9 @@ class Write extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.draftId !== nextProps.draftId && nextProps.draftId === null) {
+    const newDraft = nextProps.draftId === null;
+    const differentDraft = this.props.draftId !== nextProps.draftId;
+    if (differentDraft && newDraft) {
       this.draftId = uuidv4();
       this.setState({
         initialTitle: '',
@@ -139,6 +142,24 @@ class Write extends React.Component {
         isUpdating: false,
         showModalDelete: false,
       });
+    } else if (differentDraft) {
+      const { draftPosts, draftId } = nextProps;
+      const draftPost = _.get(draftPosts, draftId, {});
+      const initialTitle = _.get(draftPost, 'title', '');
+      const initialBody = _.get(draftPost, 'body', '');
+      const initialTopics = _.get(draftPost, 'jsonMetadata.tags', []);
+      this.draftId = draftId;
+      this.setState({
+        initialTitle,
+        initialBody,
+        initialTopics,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (_.get(this.props, 'location.search') !== _.get(prevProps, 'location.search')) {
+      this.saveDraft.cancel();
     }
   }
 
@@ -183,7 +204,9 @@ class Write extends React.Component {
 
     const parsedBody = getHtml(postBody, {}, 'text');
 
-    const images = _.map(extractImageTags, tag => tag.src);
+    const images = extractImageTags(parsedBody).map(tag =>
+      tag.src.replace('https://steemitimages.com/0x0/', ''),
+    );
     const links = extractLinks(parsedBody);
 
     if (data.title && !this.permlink) {
@@ -204,8 +227,8 @@ class Write extends React.Component {
     // Busy (like video data from DTube)
     if (this.props.draftPosts[this.draftId] && this.props.draftPosts[this.draftId].jsonMetadata) {
       metaData = {
-        ...metaData,
         ...this.props.draftPosts[this.draftId].jsonMetadata,
+        ...metaData,
       };
     }
 
@@ -257,9 +280,6 @@ class Write extends React.Component {
     return (
       <div className="shifted">
         <div className="post-layout container">
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right" />
-          </Affix>
           <div className="center">
             <Editor
               ref={this.setForm}

@@ -10,20 +10,23 @@ import {
   getFeedLoadingFromState,
   getFeedHasMoreFromState,
 } from '../helpers/stateHelpers';
+import { showPostModal } from '../app/appActions';
 import { getReplies, getMoreReplies } from '../feed/feedActions';
 import Feed from '../feed/Feed';
 import Loading from '../components/Icon/Loading';
 import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RightSidebar from '../app/Sidebar/RightSidebar';
+import PostModal from '../post/PostModalContainer';
 import requiresLogin from '../auth/requiresLogin';
 
 class Replies extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
     authenticated: PropTypes.bool.isRequired,
+    showPostModal: PropTypes.func.isRequired,
     username: PropTypes.string,
     feed: PropTypes.shape(),
+    posts: PropTypes.shape(),
     getReplies: PropTypes.func,
     getMoreReplies: PropTypes.func,
   };
@@ -66,24 +69,19 @@ class Replies extends React.Component {
           <title>{intl.formatMessage({ id: 'replies', defaultMessage: 'Replies' })} - Busy</title>
         </Helmet>
         <div className="feed-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right">
-              <RightSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <Feed
               content={content}
               isFetching={fetching}
               hasMore={hasMore}
               loadMoreContent={this.props.getMoreReplies}
+              showPostModal={this.props.showPostModal}
             />
+            <PostModal />
           </div>
+          <Affix className="rightSidebar" stickPosition={77}>
+            <RightSidebar />
+          </Affix>
         </div>
       </div>
     );
@@ -97,5 +95,10 @@ const mapStateToProps = state => ({
 });
 
 export default requiresLogin(
-  injectIntl(connect(mapStateToProps, { getReplies, getMoreReplies })(Replies)),
+  injectIntl(
+    connect(
+      mapStateToProps,
+      { getReplies, getMoreReplies, showPostModal },
+    )(Replies),
+  ),
 );

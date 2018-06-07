@@ -12,14 +12,14 @@ import {
   FormattedNumber,
 } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { Tag, Icon, Popover } from 'antd';
-import Lightbox from 'react-image-lightbox';
+import { Tag, Icon } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import formatter from '../../helpers/steemitFormatter';
 import { getFromMetadata, extractImageTags } from '../../helpers/parser';
 import { isPostDeleted, dropCategory } from '../../helpers/postHelpers';
 import withAuthActions from '../../auth/withAuthActions';
 import { getProxyImageURL } from '../../helpers/image';
+import Popover from '../Popover';
 import BTooltip from '../BTooltip';
 import Body, { getHtml } from './Body';
 import StoryDeleted from './StoryDeleted';
@@ -202,8 +202,6 @@ class StoryFull extends React.Component {
       onEditClick,
     } = this.props;
     const { isReported } = postState;
-
-    const { open, index } = this.state.lightbox;
 
     let signedBody = post.body;
     if (signature) {
@@ -437,38 +435,6 @@ class StoryFull extends React.Component {
           </Popover>
         </div>
         <div className="StoryFull__content">{content}</div>
-        {open && (
-          <Lightbox
-            imageTitle={this.images[index].alt}
-            mainSrc={this.images[index].src}
-            nextSrc={this.images[(index + 1) % this.images.length].src}
-            prevSrc={this.images[(index + (this.images.length - 1)) % this.images.length].src}
-            onCloseRequest={() => {
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  open: false,
-                },
-              });
-            }}
-            onMovePrevRequest={() =>
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  index: (index + (this.images.length - 1)) % this.images.length,
-                },
-              })
-            }
-            onMoveNextRequest={() =>
-              this.setState({
-                lightbox: {
-                  ...this.state.lightbox,
-                  index: (index + (this.images.length + 1)) % this.images.length,
-                },
-              })
-            }
-          />
-        )}
         <div className="StoryFull__topics">
           <Scrollbars
             universal
@@ -479,7 +445,8 @@ class StoryFull extends React.Component {
             style={{ width: '100%', height: 46 }}
           >
             <div className="StoryFull__topics__content">
-              {_.uniq(tags)
+              {_
+                .uniq(tags)
                 .filter(_.isString)
                 .map(tag => <Topic key={tag} name={tag} />)}
               <div style={{ flex: '0 0 20px' }} />

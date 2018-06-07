@@ -13,7 +13,7 @@
   &__bullet:after {
     content: '\2022';
     font-size: 14px;
-    margin: 0 8px;
+    margin: 0 8px 0 4px;
   }
 
   &__link {
@@ -46,13 +46,9 @@
     color: @blue-botticelli;
     font-weight: bold;
     font-size: 14px;
-
-    &--clickable {
-      cursor: pointer;
-
-      &:hover {
-        color: @primary-color;
-      }
+    cursor: pointer;
+    &:hover {
+      color: @primary-color;
     }
   }
 }

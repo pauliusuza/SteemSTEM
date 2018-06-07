@@ -14,7 +14,6 @@ import { reload } from '../auth/authActions';
 import { getBookmarks } from '../feed/feedActions';
 import { showPostModal } from '../app/appActions';
 import Affix from '../components/Utils/Affix';
-import LeftSidebar from '../app/Sidebar/LeftSidebar';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import requiresLogin from '../auth/requiresLogin';
 import PostModal from '../post/PostModalContainer';
@@ -33,12 +32,12 @@ import PostModal from '../post/PostModalContainer';
 export default class Bookmarks extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
-    reloading: PropTypes.bool,
     feed: PropTypes.shape().isRequired,
+    showPostModal: PropTypes.func.isRequired,
+    reloading: PropTypes.bool,
     pendingBookmarks: PropTypes.arrayOf(PropTypes.number),
     getBookmarks: PropTypes.func,
     reload: PropTypes.func,
-    showPostModal: PropTypes.func,
   };
 
   static defaultProps = {
@@ -46,7 +45,6 @@ export default class Bookmarks extends React.Component {
     pendingBookmarks: [],
     getBookmarks: () => {},
     reload: () => {},
-    showPostModal: () => {},
   };
 
   componentDidMount() {
@@ -78,16 +76,6 @@ export default class Bookmarks extends React.Component {
           </title>
         </Helmet>
         <div className="feed-layout container">
-          <Affix className="leftContainer" stickPosition={77}>
-            <div className="left">
-              <LeftSidebar />
-            </div>
-          </Affix>
-          <Affix className="rightContainer" stickPosition={77}>
-            <div className="right">
-              <RightSidebar />
-            </div>
-          </Affix>
           <div className="center">
             <Feed
               content={content}
@@ -108,6 +96,9 @@ export default class Bookmarks extends React.Component {
               </div>
             )}
           </div>
+          <Affix className="rightSidebar" stickPosition={77}>
+            <RightSidebar />
+          </Affix>
         </div>
         <PostModal />
       </div>

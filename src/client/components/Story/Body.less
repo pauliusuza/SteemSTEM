@@ -13,6 +13,18 @@
   hyphens: none;
   margin: 4px 0;
 
+  a[target='_blank'] {
+    &:after {
+      content: '\e673';
+      font-family: 'iconfont' !important;
+      font-size: 80%;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+  }
+
   // Heading
 
   h1,
@@ -64,6 +76,11 @@
     &:not(:last-child) {
       margin: 0 0 0.5rem 0;
     }
+  }
+
+  strong,
+  b {
+    color: @black;
   }
 
   // List
@@ -184,6 +201,14 @@
 
   p > img:first-child {
     margin-top: 0;
+  }
+
+  summary {
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   hr {
