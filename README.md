@@ -11,10 +11,21 @@ For more info: https://github.com/busyorg/busy
 
 ## Quick Setup
 
+```bash
+git clone https://github.com/busyorg/busy.git
+cd busy
+
+yarn
+yarn dev
 ```
+
+## Production build
+
+```bash
 git clone https://github.com/BuildTeamDev/steemSTEM.git
 cd busy
 
 yarn
+yarn build
 yarn start
 ```

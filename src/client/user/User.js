@@ -63,7 +63,6 @@ export default class User extends React.Component {
   }
 
   state = {
-    popoverVisible: false,
     isFollowing: false,
   };
 
@@ -108,17 +107,8 @@ export default class User extends React.Component {
     }
   }
 
-  handleUserMenuSelect = key => {
-    if (key === 'transfer') {
-      this.props.openTransfer(this.props.match.params.name);
-      this.setState({
-        popoverVisible: false,
-      });
-    }
-  };
-
-  handleVisibleChange = visible => {
-    this.setState({ popoverVisible: visible });
+  handleTransferClick = () => {
+    this.props.openTransfer(this.props.match.params.name);
   };
 
   render() {
@@ -174,9 +164,7 @@ export default class User extends React.Component {
             isFollowing={isFollowing}
             hasCover={hasCover}
             onFollowClick={this.handleFollowClick}
-            isPopoverVisible={this.state.popoverVisible}
-            onSelect={this.handleUserMenuSelect}
-            handleVisibleChange={this.handleVisibleChange}
+            onTransferClick={this.handleTransferClick}
           />
         )}
         <div className="shifted">

@@ -3,6 +3,14 @@
 .feed-layout {
   position: relative;
 
+  @media @small {
+    padding: 0 @mobile-padding;
+  }
+
+  @media @large {
+    padding: 0;
+  }
+
   &:after {
     content: '';
     display: table;
