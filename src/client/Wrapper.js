@@ -58,6 +58,35 @@ import BBackTop from './components/BBackTop';
   },
 )
 export default class Wrapper extends React.PureComponent {
+  static async fetchData({ store, req, res }) {
+    await store.dispatch(login());
+
+    const appUrl = url.format({
+      protocol: req.protocol,
+      host: req.get('host'),
+    });
+
+    store.dispatch(setAppUrl(appUrl));
+
+    const state = store.getState();
+
+    const useBeta = getUseBeta(state);
+
+    if (useBeta && appUrl === 'https://busy.org') {
+      res.redirect(`https://staging.busy.org${req.originalUrl}`);
+      return;
+    }
+
+    let activeLocale = getLocale(state);
+    if (activeLocale === 'auto') {
+      activeLocale = req.cookies.language || getRequestLocale(req.get('Accept-Language'));
+    }
+
+    const lang = await loadLanguage(activeLocale);
+
+    store.dispatch(setUsedLocale(lang));
+  }
+
   static propTypes = {
     route: PropTypes.shape().isRequired,
     user: PropTypes.shape().isRequired,
@@ -93,35 +122,6 @@ export default class Wrapper extends React.PureComponent {
     setUsedLocale: () => {},
     busyLogin: () => {},
   };
-
-  static async fetchData({ store, req, res }) {
-    await store.dispatch(login());
-
-    const appUrl = url.format({
-      protocol: req.protocol,
-      host: req.get('host'),
-    });
-
-    store.dispatch(setAppUrl(appUrl));
-
-    const state = store.getState();
-
-    const useBeta = getUseBeta(state);
-
-    if (useBeta && appUrl === 'https://busy.org') {
-      res.redirect(`https://staging.busy.org${req.originalUrl}`);
-      return;
-    }
-
-    let activeLocale = getLocale(state);
-    if (activeLocale === 'auto') {
-      activeLocale = req.cookies.language || getRequestLocale(req.get('Accept-Language'));
-    }
-
-    const lang = await loadLanguage(activeLocale);
-
-    store.dispatch(setUsedLocale(lang));
-  }
 
   constructor(props) {
     super(props);

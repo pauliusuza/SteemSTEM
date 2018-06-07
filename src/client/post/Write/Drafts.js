@@ -86,10 +86,12 @@ class Drafts extends React.Component {
   render() {
     const { intl, reloading, draftPosts, pendingDrafts } = this.props;
     const { showModalDelete, selectedDrafts } = this.state;
-    const sortedDraftPosts = _.sortBy(
-      _.map(draftPosts, (draft, id) => ({ ...draft, id })),
-      draft => new Date(draft.lastUpdated),
-    ).reverse();
+    const sortedDraftPosts = _
+      .sortBy(
+        _.map(draftPosts, (draft, id) => ({ ...draft, id })),
+        draft => new Date(draft.lastUpdated),
+      )
+      .reverse();
     const noDrafts = !reloading && _.size(draftPosts) === 0;
 
     return (

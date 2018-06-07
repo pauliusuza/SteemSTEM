@@ -24,6 +24,8 @@ module.exports = {
     'prefer-destructuring': 0,
     'react/no-unused-state': 0,
     'react/no-unused-prop-types': 0,
+    'react/jsx-no-target-blank': 0,
+    'react/sort-comp': 0,
     'react/jsx-filename-extension': [ERROR, { extensions: ['.js'] }],
     'import/no-extraneous-dependencies': [
       ERROR,
