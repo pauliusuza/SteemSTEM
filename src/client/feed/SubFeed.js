@@ -14,7 +14,7 @@ import {
   getUserFeedLoadingFromState,
   getUserFeedFetchedFromState,
   getFeedHasMoreFromState,
-  getUserFeedFailedFromState,
+  // getUserFeedFailedFromState,
   getFeedFailedFromState,
   getUserFeedFromState,
 } from '../helpers/stateHelpers';
@@ -112,7 +112,7 @@ class SubFeed extends React.Component {
   }
 
   render() {
-    const { authenticated, loaded, user, feed, match } = this.props;
+    const { authenticated, loaded, /* user, */ feed, match } = this.props;
     let content = [];
     let isFetching = false;
     let fetched = false;
@@ -121,7 +121,7 @@ class SubFeed extends React.Component {
     let loadMoreContent = () => {};
     const isAuthHomeFeed = match.url === '/' && authenticated;
 
-    if (isAuthHomeFeed) {
+    /* if (isAuthHomeFeed) {
       content = getUserFeedFromState(user.name, feed);
       isFetching = getUserFeedLoadingFromState(user.name, feed);
       fetched = getUserFeedFetchedFromState(user.name, feed);
@@ -129,14 +129,16 @@ class SubFeed extends React.Component {
       failed = getUserFeedFailedFromState(user.name, feed);
       loadMoreContent = () => this.props.getMoreFeedContent('feed', user.name);
     } else {
-      const sortBy = match.params.sortBy || 'trending';
-      content = getFeedFromState(sortBy, match.params.category, feed);
-      isFetching = getFeedLoadingFromState(sortBy, match.params.category, feed);
-      fetched = getFeedFetchedFromState(sortBy, match.params.category, feed);
-      hasMore = getFeedHasMoreFromState(sortBy, match.params.category, feed);
-      failed = getFeedFailedFromState(sortBy, match.params.category, feed);
-      loadMoreContent = () => this.props.getMoreFeedContent(sortBy, match.params.category);
-    }
+    */
+    const sortBy = match.params.sortBy || 'trending';
+    const cat = match.params.category;
+    content = getFeedFromState(sortBy, cat, feed);
+    isFetching = getFeedLoadingFromState(sortBy, cat, feed);
+    fetched = getFeedFetchedFromState(sortBy, cat, feed);
+    hasMore = getFeedHasMoreFromState(sortBy, cat, feed);
+    failed = getFeedFailedFromState(sortBy, cat, feed);
+    loadMoreContent = () => this.props.getMoreFeedContent(sortBy, cat);
+    // }
 
     const empty = _.isEmpty(content);
     const displayEmptyFeed = empty && fetched && loaded && !isFetching && !failed;
