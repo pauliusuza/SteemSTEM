@@ -8,29 +8,33 @@
 
   .left {
     flex: 1;
+    padding-left: 16px;
   }
 
   .right {
-    flex: 1;
+    display: flex;
     justify-content: flex-end;
+    margin-right: 16px;
   }
 
   .center {
+    display: none;
     flex: 3;
-    &.mobileVisible {
+
+    @media @small {
+      display: block;
     }
-  }
-}
 
-div[data-dir='rtl'] .topnav-layout {
-  .left {
-  }
+    @media @medium {
+      display: block;
+    }
 
-  .right {
-  }
+    @media @large {
+      display: block;
+    }
 
-  .center {
     &.mobileVisible {
+      display: block;
     }
   }
 }

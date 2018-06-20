@@ -22,7 +22,10 @@ body {
 
 .storyBodyWrap {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
+  @media @small {
+    flex-direction: row-reverse;
+  }
 }
 .bodyShort {
 }
