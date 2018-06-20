@@ -29,7 +29,7 @@ export const getFeedContent = ({ sortBy = 'trending', category, limit = 20 }) =>
 ) =>
   dispatch({
     type: GET_FEED_CONTENT.ACTION,
-    payload: getDiscussionsFromAPI(sortBy, { tag: 'steemstem' || category, limit }, steemAPI),
+    payload: getDiscussionsFromAPI(sortBy, { tag: category || 'steemstem', limit }, steemAPI),
     meta: {
       sortBy,
       category: category || 'all',
@@ -45,7 +45,7 @@ export const getMoreFeedContent = ({ sortBy, category, limit = 20 }) => (
   const state = getState();
   const feed = getFeed(state);
   const posts = getPosts(state);
-  const feedContent = getFeedFromState(sortBy, 'steemstem' || category, feed);
+  const feedContent = getFeedFromState(sortBy, category || 'all', feed);
 
   if (!feedContent.length) return Promise.resolve(null);
 
@@ -59,7 +59,7 @@ export const getMoreFeedContent = ({ sortBy, category, limit = 20 }) => (
     payload: getDiscussionsFromAPI(
       sortBy,
       {
-        tag: category,
+        tag: category || 'steemstem',
         limit: limit + 1,
         start_author: startAuthor,
         start_permlink: startPermlink,
