@@ -58,24 +58,24 @@ const getFilteredDiscussion = function getFilteredDiscussion(sortBy, category, l
         const startPermlink = lastPost.permlink;
         const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit - total.length + counter + 1, start_author: startAuthor, start_permlink: startPermlink }, steemAPI), category, true);
         total = total.concat(r);
-        console.log('second', r);
+        //console.log('second', r);
       } else {
         if(last) {
           const startAuthor = last.author;
           const startPermlink = last.permlink;
           const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit - total.length + counter + 1, start_author: startAuthor, start_permlink: startPermlink }, steemAPI), category, true);
           total = total.concat(r);
-          console.log('first-more', r);
+          //console.log('first-more', r);
         } else {
           const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit + counter }, steemAPI), category);
           total = total.concat(r);
-          console.log('first', total, limit + counter);
+          //console.log('first', total, limit + counter);
         }
       }
       counter++;
-      if(counter > 10) break;
+      if(counter > 5) break;
     }
-    console.log(total.length, limit)
+    //console.log(total.length, limit)
     return resolve(total.slice(0, limit));
   });
 }
