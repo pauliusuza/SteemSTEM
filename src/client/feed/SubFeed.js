@@ -84,7 +84,7 @@ class SubFeed extends React.Component {
     const oldSortBy = this.props.match.params.sortBy;
     const newSortBy = match.params.sortBy || 'trending';
     const oldCategory = this.props.match.params.category;
-    const newCategory = match.params.category;
+    const newCategory = pickCat(match.params.category, 'steemstem');
     const wasAuthenticated = this.props.authenticated;
     const isAuthenticated = authenticated;
     const wasLoaded = this.props.loaded;
@@ -111,6 +111,13 @@ class SubFeed extends React.Component {
         this.props.getFeedContent(newSortBy, newCategory);
       }
     }*/
+    if (oldSortBy !== newSortBy || oldCategory !== newCategory || (!wasLoaded && isLoaded)) {
+      const fetching = getFeedLoadingFromState(newSortBy, newCategory, feed);
+      const fetched = getFeedFetchedFromState(newSortBy, newCategory, feed);
+      if (!fetching && !fetched) {
+        this.props.getFeedContent(newSortBy, newCategory);
+      }
+    }
   }
 
   render() {
