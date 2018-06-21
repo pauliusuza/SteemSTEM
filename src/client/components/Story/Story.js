@@ -323,34 +323,25 @@ class Story extends React.Component {
           </div>
           <div className="Story__footer">
             <div className="Story__header">
-              <Link to={`/@${post.author}`}>
-                <Avatar username={post.author} size={32} />
-              </Link>
               <div className="Story__header__text">
-                <span className="Story__header__flex">
-                  <Link to={`/@${post.author}`}>
-                    <h4>
-                      <span className="username">{post.author}</span>
-                      <BTooltip title={intl.formatMessage({ id: 'reputation_score' })}>
-                        <Tag>{postAuthorReputation}</Tag>
-                      </BTooltip>
-                    </h4>
-                  </Link>
-                </span>
-                <span>
-                  <BTooltip
-                    title={
-                      <span>
-                        <FormattedDate value={`${post.created}Z`} />{' '}
-                        <FormattedTime value={`${post.created}Z`} />
-                      </span>
-                    }
-                  >
-                    <span className="Story__date">
-                      <FormattedRelative value={`${post.created}Z`} />
+                <BTooltip
+                  title={
+                    <span>
+                      <FormattedDate value={`${post.created}Z`} />{' '}
+                      <FormattedTime value={`${post.created}Z`} />
                     </span>
-                  </BTooltip>
-                  <PostedFrom post={post} />
+                  }
+                >
+                  <span className="Story__date">
+                    <FormattedRelative value={`${post.created}Z`} />
+                  </span>
+                </BTooltip>
+                <span className="PostedFrom__bullet" />
+                <span className="Story__date">
+                  <Link to={`/@${post.author}`}>
+                    <span className="username">{post.author}</span>
+                    <Avatar username={post.author} size={24} />
+                  </Link>
                 </span>
               </div>
             </div>

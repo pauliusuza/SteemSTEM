@@ -48,6 +48,14 @@ const StoryPreview = ({ post }) => {
     };
   }
 
+  const curated = post.active_votes.filter((v) => { return v.voter === 'steemstem' });
+  let quality = 'none';
+  if(curated && curated.length > 0) {
+    quality = 'low';
+    if(curated[0].percent >= 5500) quality = 'medium';
+    if(curated[0].percent === 10000) quality = 'high';
+  }
+
   const preview = {
     text: () => (
       <BodyShort
@@ -103,7 +111,7 @@ const StoryPreview = ({ post }) => {
   return (
     <Fragment>
       <span className="categoryLabel">{post.category}</span>
-      <div className="storyBodyWrap">{bodyData}</div>
+      <div className={"storyBodyWrap " + quality}>{bodyData}</div>
     </Fragment>
   );
 };

@@ -38,22 +38,54 @@ body {
   color: #009c9c;
   font-size: 80%;
 }
+
 .bodyShort h2 {
-  padding: 0.25em 0.5em 0.25em 0.5em;
-  font-size: 30px;
+  padding: 10px 15px 10px 15px;
+  font-size: 24px;
   font-weight: 500 !important;
   line-height: 1.2em;
 }
 
 .storyBodyWrap .Story__content__img-container {
   flex: 1;
-  min-width: 230px;
+  min-width: 200px;
 }
 
 .storyBodyWrap .Story__content__body {
   flex: 2;
   font-family: sans-serif;
   color: #777;
+}
+
+.storyBodyWrap.low .bodyShort h2 {
+  font-size: 20px;
+}
+
+.storyBodyWrap.low .Story__content__img-container {
+  min-width: 150px;
+}
+
+.storyBodyWrap.high {
+  background: rgb(206,255,225);
+background: linear-gradient(168deg, rgba(206,255,225,1) 0%, rgba(255,255,255,1) 52%, rgba(214,239,244,0) 100%);
+}
+
+.storyBodyWrap.high .bodyShort h2 {
+  padding: 15px;
+  font-size: 32px;
+}
+
+.StoryFooter {
+  flex: 1;
+}
+
+.Story__footer {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.Story__header {
+
 }
 
 a:focus {
@@ -164,8 +196,9 @@ video {
 }
 
 .username {
-  color: @black;
+  color: #99aab5;
   font-weight: 500;
+  margin-right: 5px;
 }
 
 iframe {

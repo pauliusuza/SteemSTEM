@@ -21,7 +21,7 @@ const BodyShort = props => {
 
   /* eslint-disable react/no-danger */
   return (
-    <div className="bodyShort">
+    <div className={"bodyShort"}>
       <h2>{props.title}</h2>
       <div
         className={props.className}
@@ -43,7 +43,7 @@ BodyShort.defaultProps = {
   className: '',
   body: '',
   title: '',
-  length: 140,
+  length: 100,
 };
 
 export default BodyShort;
