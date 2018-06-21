@@ -73,7 +73,10 @@ const getFilteredDiscussion = function getFilteredDiscussion(sortBy, category, l
         }
       }
       counter++;
-      if(counter > 5) break;
+      if(counter > 3) {
+        resolve(total.slice(0, limit));
+        break;
+      }
     }
     //console.log(total.length, limit)
     return resolve(total.slice(0, limit));

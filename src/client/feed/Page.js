@@ -15,6 +15,7 @@ import Affix from '../components/Utils/Affix';
 import ScrollToTop from '../components/Utils/ScrollToTop';
 import ScrollToTopOnMount from '../components/Utils/ScrollToTopOnMount';
 import QuickPostEditor from '../components/QuickPostEditor/QuickPostEditor';
+import './Page.less';
 
 @connect(state => ({
   authenticated: getIsAuthenticated(state),
@@ -51,7 +52,13 @@ class Page extends React.Component {
 
     const shouldDisplaySelector = location.pathname !== '/' || (!authenticated && loaded);
     const displayTopicSelector = location.pathname === '/trending';
-    const shouldDisplayFeedMenu = location.pathname === '/';
+    const shouldDisplayFeedMenu = (
+      location.pathname === '/' ||
+      location.pathname === '/trending' ||
+      location.pathname === '/created' ||
+      location.pathname === '/active' ||
+      location.pathname === '/hot'
+    );
 
     const robots = location.pathname === '/' ? 'index,follow' : 'noindex,follow';
 
@@ -67,7 +74,7 @@ class Page extends React.Component {
         <div className="shifted">
           <div className="feed-layout container">
             <div className="center">
-              {displayTopicSelector && <TrendingTagsMenu />}
+              <div className="feed-utils">
               {shouldDisplaySelector && (
                 <TopicSelector
                   isSingle={false}
@@ -75,9 +82,12 @@ class Page extends React.Component {
                   topics={category ? [category] : []}
                   onSortChange={this.handleSortChange}
                   onTopicClose={this.handleTopicClose}
+                  style={{flex: 1}}
                 />
               )}
-              {shouldDisplayFeedMenu && <FeedMenu category={category} sortBy={sortBy || 'trending'} /> /*<QuickPostEditor />*/}
+              {shouldDisplayFeedMenu && <FeedMenu category={category} sortBy={sortBy || 'trending'} />
+              /*<QuickPostEditor />*/}
+              </div>
               <SubFeed />
             </div>
             <Affix className="rightSidebar" stickPosition={77}>
