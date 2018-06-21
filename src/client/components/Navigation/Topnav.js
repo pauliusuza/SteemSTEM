@@ -354,7 +354,6 @@ class Topnav extends React.Component {
             <Link className="Topnav__brand" to="/">
               SteemSTEM
             </Link>
-            <span className="Topnav__version">beta</span>
           </div>
           <div className={classNames('center', { mobileVisible: searchBarActive })}>
             <div className="Topnav__input-container">

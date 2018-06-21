@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { getFeedContent } from './feedActions';
 import { getIsLoaded, getIsAuthenticated } from '../reducers';
 import SubFeed from './SubFeed';
+import FeedMenu from './FeedMenu';
 import HeroBannerContainer from './HeroBannerContainer';
 import RightSidebar from '../app/Sidebar/RightSidebar';
 import TopicSelector from '../components/TopicSelector';
@@ -50,6 +51,7 @@ class Page extends React.Component {
 
     const shouldDisplaySelector = location.pathname !== '/' || (!authenticated && loaded);
     const displayTopicSelector = location.pathname === '/trending';
+    const shouldDisplayFeedMenu = location.pathname === '/';
 
     const robots = location.pathname === '/' ? 'index,follow' : 'noindex,follow';
 
@@ -75,7 +77,7 @@ class Page extends React.Component {
                   onTopicClose={this.handleTopicClose}
                 />
               )}
-              {authenticated && <QuickPostEditor />}
+              {shouldDisplayFeedMenu && <FeedMenu category={category} sortBy={sortBy || 'trending'} /> /*<QuickPostEditor />*/}
               <SubFeed />
             </div>
             <Affix className="rightSidebar" stickPosition={77}>

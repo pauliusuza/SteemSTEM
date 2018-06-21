@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import Cookie from 'js-cookie';
 import _ from 'lodash';
 import { showPostModal } from '../app/appActions';
-import { getFeedContent, getMoreFeedContent } from './feedActions';
+import { getFeedContent, getMoreFeedContent, pickCat } from './feedActions';
 
 import {
   getFeedFromState,
@@ -92,7 +92,7 @@ class SubFeed extends React.Component {
 
     if (!isLoaded && Cookie.get('access_token')) return;
 
-    if (
+    /*if (
       match.url === '/' &&
       ((match.url !== this.props.match.url && isAuthenticated) ||
         (isAuthenticated && !wasAuthenticated))
@@ -102,13 +102,15 @@ class SubFeed extends React.Component {
       if (!fetching && !fetched) {
         this.props.getFeedContent('feed', user.name);
       }
-    } else if (oldSortBy !== newSortBy || oldCategory !== newCategory || (!wasLoaded && isLoaded)) {
+    } else*/
+    /*
+    if (oldSortBy !== newSortBy || oldCategory !== newCategory || (!wasLoaded && isLoaded)) {
       const fetching = getFeedLoadingFromState(newSortBy, newCategory, feed);
       const fetched = getFeedFetchedFromState(newSortBy, newCategory, feed);
       if (!fetching && !fetched) {
         this.props.getFeedContent(newSortBy, newCategory);
       }
-    }
+    }*/
   }
 
   render() {
@@ -131,12 +133,13 @@ class SubFeed extends React.Component {
     } else {
     */
     const sortBy = match.params.sortBy || 'trending';
-    const cat = match.params.category;
+    const cat = pickCat(match.params.category, 'steemstem');
     content = getFeedFromState(sortBy, cat, feed);
     isFetching = getFeedLoadingFromState(sortBy, cat, feed);
     fetched = getFeedFetchedFromState(sortBy, cat, feed);
     hasMore = getFeedHasMoreFromState(sortBy, cat, feed);
     failed = getFeedFailedFromState(sortBy, cat, feed);
+
     loadMoreContent = () => this.props.getMoreFeedContent(sortBy, cat);
     // }
 

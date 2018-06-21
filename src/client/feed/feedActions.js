@@ -22,20 +22,83 @@ export const GET_MORE_REPLIES = createAsyncActionType('@user/GET_MORE_REPLIES');
 
 export const GET_BOOKMARKS = createAsyncActionType('@bookmarks/GET_BOOKMARKS');
 
+const whitelist = ['suesa', 'steemstem', 'socky', 'egotheist'];
+
+export const filterByVoters = function filterByVoters (posts, category, slice = false) {
+  let retval = slice ? posts.slice(1) : posts;
+  if(category === 'steemstem-curated') {
+    retval = retval.filter((p) => {
+      const found = p.active_votes.filter((v) => {
+        return v.voter === 'steemstem';
+      });
+      return found.length > 0;
+    });
+  } else if(category === 'steemstem-featured'){
+    retval = retval.filter((p) => {
+      return (whitelist.indexOf(p.author) !== -1);
+    });
+    retval = retval.filter((p) => {
+      const found = p.active_votes.filter((v) => {
+        return v.voter === 'steemstem';
+      });
+      return found.length > 0;
+    });
+  }
+  return retval;
+}
+
+const getFilteredDiscussion = function getFilteredDiscussion(sortBy, category, limit, steemAPI, last) {
+  return new Promise(async (resolve, reject) => {
+    let total = [];
+    let counter = 0;
+    while(total.length < limit) {
+      if(total.length > 0 && counter > 0) {
+        const lastPost = total[total.length - 1];
+        const startAuthor = lastPost.author;
+        const startPermlink = lastPost.permlink;
+        const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit - total.length + counter + 1, start_author: startAuthor, start_permlink: startPermlink }, steemAPI), category, true);
+        total = total.concat(r);
+        console.log('second', r);
+      } else {
+        if(last) {
+          const startAuthor = last.author;
+          const startPermlink = last.permlink;
+          const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit - total.length + counter + 1, start_author: startAuthor, start_permlink: startPermlink }, steemAPI), category, true);
+          total = total.concat(r);
+          console.log('first-more', r);
+        } else {
+          const r = filterByVoters(await getDiscussionsFromAPI(sortBy, { tag: pickCat(category, 'steemstem', true), limit: limit + counter }, steemAPI), category);
+          total = total.concat(r);
+          console.log('first', total, limit + counter);
+        }
+      }
+      counter++;
+      if(counter > 10) break;
+    }
+    console.log(total.length, limit)
+    return resolve(total.slice(0, limit));
+  });
+}
+
+export const pickCat = function pickCat(category, revert, isTag) {
+  return (!category || (isTag && (category === 'steemstem-curated' || category === 'steemstem-featured')) ? revert : category);
+}
+
 export const getFeedContent = ({ sortBy = 'trending', category, limit = 20 }) => (
   dispatch,
   getState,
   { steemAPI },
-) =>
-  dispatch({
+) => {
+  return dispatch({
     type: GET_FEED_CONTENT.ACTION,
-    payload: getDiscussionsFromAPI(sortBy, { tag: category || 'steemstem', limit }, steemAPI),
+    payload: getFilteredDiscussion(sortBy, category, limit, steemAPI),
     meta: {
       sortBy,
-      category: category || 'all',
+      category: pickCat(category, 'steemstem'),
       limit,
     },
-  });
+  })
+}
 
 export const getMoreFeedContent = ({ sortBy, category, limit = 20 }) => (
   dispatch,
@@ -45,7 +108,7 @@ export const getMoreFeedContent = ({ sortBy, category, limit = 20 }) => (
   const state = getState();
   const feed = getFeed(state);
   const posts = getPosts(state);
-  const feedContent = getFeedFromState(sortBy, category || 'all', feed);
+  const feedContent = getFeedFromState(sortBy, pickCat(category, 'steemstem'), feed);
 
   if (!feedContent.length) return Promise.resolve(null);
 
@@ -56,19 +119,19 @@ export const getMoreFeedContent = ({ sortBy, category, limit = 20 }) => (
 
   return dispatch({
     type: GET_MORE_FEED_CONTENT.ACTION,
-    payload: getDiscussionsFromAPI(
+    payload: getFilteredDiscussion(sortBy, category, limit, steemAPI, lastPost), /*getDiscussionsFromAPI(
       sortBy,
       {
-        tag: category || 'steemstem',
+        tag: pickCat(category, 'steemstem'),
         limit: limit + 1,
         start_author: startAuthor,
         start_permlink: startPermlink,
       },
       steemAPI,
-    ).then(postsData => postsData.slice(1)),
+    ).then((postsData) => { return filterByVoters(postsData, category).slice(1); }),*/
     meta: {
       sortBy,
-      category: category || 'all',
+      category: pickCat(category, 'steemstem'),
       limit,
     },
   });
