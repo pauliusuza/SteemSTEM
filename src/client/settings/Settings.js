@@ -14,6 +14,7 @@ import {
   getRewriteLinks,
   getUseBeta,
   getUpvoteSetting,
+  getExitPageSetting,
 } from '../reducers';
 import { saveSettings } from './settingsActions';
 import { reload } from '../auth/authActions';
@@ -40,6 +41,7 @@ import packageJson from '../../../package.json';
     useBeta: getUseBeta(state),
     loading: getIsSettingsLoading(state),
     upvoteSetting: getUpvoteSetting(state),
+    exitPageSetting: getExitPageSetting(state),
   }),
   { reload, saveSettings, notify },
 )
@@ -58,6 +60,7 @@ export default class Settings extends React.Component {
     saveSettings: PropTypes.func,
     notify: PropTypes.func,
     upvoteSetting: PropTypes.bool,
+    exitPageSetting: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -70,6 +73,7 @@ export default class Settings extends React.Component {
     rewriteLinks: false,
     useBeta: false,
     upvoteSetting: true,
+    exitPageSetting: true,
     reload: () => {},
     saveSettings: () => {},
     notify: () => {},
@@ -86,6 +90,7 @@ export default class Settings extends React.Component {
     votePercent: 10000,
     showNSFWPosts: false,
     rewriteLinks: false,
+    exitPageSetting: true,
   };
 
   componentWillMount() {
@@ -97,6 +102,7 @@ export default class Settings extends React.Component {
       rewriteLinks: this.props.rewriteLinks,
       useBeta: this.props.useBeta,
       upvoteSetting: this.props.upvoteSetting,
+      exitPageSetting: this.props.exitPageSetting,
     });
   }
 
@@ -132,6 +138,10 @@ export default class Settings extends React.Component {
     if (nextProps.upvoteSetting !== this.props.upvoteSetting) {
       this.setState({ upvoteSetting: nextProps.upvoteSetting });
     }
+
+    if (nextProps.exitPageSetting !== this.props.exitPageSetting) {
+      this.setState({ exitPageSetting: nextProps.exitPageSetting });
+    }
   }
 
   handleSave = () => {
@@ -144,6 +154,7 @@ export default class Settings extends React.Component {
         rewriteLinks: this.state.rewriteLinks,
         useBeta: this.state.useBeta,
         upvoteSetting: this.state.upvoteSetting,
+        exitPageSetting: this.state.exitPageSetting,
       })
       .then(() =>
         this.props.notify(
@@ -159,6 +170,7 @@ export default class Settings extends React.Component {
   handleShowNSFWPosts = event => this.setState({ showNSFWPosts: event.target.checked });
   handleRewriteLinksChange = event => this.setState({ rewriteLinks: event.target.checked });
   handleUseBetaChange = event => this.setState({ useBeta: event.target.checked });
+  handleExitPageSettingChange = event => this.setState({ exitPageSetting: event.target.checked });
 
   handleUpvoteSettingChange(event) {
     this.setState({ upvoteSetting: event.target.checked });
@@ -173,7 +185,15 @@ export default class Settings extends React.Component {
       showNSFWPosts: initialShowNSFWPosts,
       loading,
     } = this.props;
-    const { votingPower, locale, showNSFWPosts, rewriteLinks, useBeta, upvoteSetting } = this.state;
+    const {
+      votingPower,
+      locale,
+      showNSFWPosts,
+      rewriteLinks,
+      useBeta,
+      upvoteSetting,
+      exitPageSetting,
+    } = this.state;
 
     const languageOptions = [];
 
@@ -343,6 +363,26 @@ export default class Settings extends React.Component {
                       onChange={this.handleUpvoteSettingChange}
                     >
                       <FormattedMessage id="upvote_setting" defaultMessage="Like my posts" />
+                    </Checkbox>
+                  </div>
+                </div>
+                <div className="Settings__section">
+                  <h3>
+                    <FormattedMessage id="enable_exit_page" defaultMessage="Enable exit page" />
+                  </h3>
+                  <p>
+                    <FormattedMessage
+                      id="enable_exit_page_details"
+                      defaultMessage="Enable this option to use the exit page when clicking on an external link."
+                    />
+                  </p>
+                  <div className="Settings__section__checkbox">
+                    <Checkbox
+                      name="exit_page_setting"
+                      checked={exitPageSetting}
+                      onChange={this.handleExitPageSettingChange}
+                    >
+                      <FormattedMessage id="enable_exit_page" defaultMessage="Enable exit page" />
                     </Checkbox>
                   </div>
                 </div>
